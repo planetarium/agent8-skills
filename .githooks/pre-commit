@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+#
+# Pre-commit hook: validates skill .md files in skills/ directory.
+#
+# Rules:
+#   - skills/ must contain only .md files
+#   - Filename (without .md): 1-64 chars, ^[a-z0-9]+(-[a-z0-9]+)*$
+#   - Frontmatter must have 'name' matching filename
+#   - Frontmatter must have 'description' (1-1024 chars)
+
+set -euo pipefail
+
+NAME_REGEX='^[a-z0-9]+(-[a-z0-9]+)*$'
+MAX_NAME_LEN=64
+MAX_DESC_LEN=1024
+
+errors=()
+
+# Get staged files in skills/ directory (Added, Copied, Modified only)
+staged_files=$(git diff --cached --name-only --diff-filter=ACM -- 'skills/*' || true)
+
+if [ -z "$staged_files" ]; then
+    exit 0
+fi
+
+while IFS= read -r file; do
+    basename_file=$(basename "$file")
+
+    # Check: only .md files allowed
+    if [[ "$basename_file" != *.md ]]; then
+        errors+=("$file: only .md files are allowed in skills/")
+        continue
+    fi
+
+    # Extract filename without extension
+    filename="${basename_file%.md}"
+
+    # Check: filename length
+    if [ ${#filename} -lt 1 ] || [ ${#filename} -gt $MAX_NAME_LEN ]; then
+        errors+=("$file: filename must be 1-64 characters (got ${#filename})")
+    fi
+
+    # Check: filename matches regex
+    if ! echo "$filename" | grep -qE "$NAME_REGEX"; then
+        errors+=("$file: filename '$filename' must be lowercase alphanumeric with single hyphen separators (regex: $NAME_REGEX)")
+    fi
+
+    # Read file content from staging area
+    content=$(git show ":$file" 2>/dev/null || true)
+    if [ -z "$content" ]; then
+        errors+=("$file: unable to read staged content")
+        continue
+    fi
+
+    # Check: frontmatter exists (starts with ---)
+    first_line=$(echo "$content" | head -1)
+    if [ "$first_line" != "---" ]; then
+        errors+=("$file: missing YAML frontmatter (file must start with ---)")
+        continue
+    fi
+
+    # Extract frontmatter (between first and second ---)
+    frontmatter=$(echo "$content" | awk '/^---$/{n++; next} n==1{print} n>=2{exit}')
+
+    if [ -z "$frontmatter" ]; then
+        errors+=("$file: empty or malformed frontmatter")
+        continue
+    fi
+
+    # Extract name field
+    name=$(echo "$frontmatter" | grep -E '^name:' | head -1 | sed 's/^name:[[:space:]]*//' | sed 's/[[:space:]]*$//')
+
+    if [ -z "$name" ]; then
+        errors+=("$file: missing 'name' field in frontmatter")
+    else
+        # Check: name matches filename
+        if [ "$name" != "$filename" ]; then
+            errors+=("$file: name '$name' does not match filename '$filename'")
+        fi
+
+        # Check: name matches regex
+        if ! echo "$name" | grep -qE "$NAME_REGEX"; then
+            errors+=("$file: name '$name' does not match required pattern ($NAME_REGEX)")
+        fi
+
+        # Check: name length
+        if [ ${#name} -lt 1 ] || [ ${#name} -gt $MAX_NAME_LEN ]; then
+            errors+=("$file: name must be 1-64 characters (got ${#name})")
+        fi
+    fi
+
+    # Extract description field
+    description=$(echo "$frontmatter" | grep -E '^description:' | head -1 | sed 's/^description:[[:space:]]*//' | sed 's/[[:space:]]*$//')
+
+    if [ -z "$description" ]; then
+        errors+=("$file: missing 'description' field in frontmatter")
+    else
+        desc_len=${#description}
+        if [ $desc_len -lt 1 ] || [ $desc_len -gt $MAX_DESC_LEN ]; then
+            errors+=("$file: description must be 1-1024 characters (got $desc_len)")
+        fi
+    fi
+done <<< "$staged_files"
+
+if [ ${#errors[@]} -gt 0 ]; then
+    echo ""
+    echo "=== Skill Validation Failed ==="
+    echo ""
+    for error in "${errors[@]}"; do
+        echo "  ERROR: $error"
+    done
+    echo ""
+    echo "Rules:"
+    echo "  - Only .md files are allowed in skills/"
+    echo "  - Filename (without .md): 1-64 chars, lowercase alphanumeric, single hyphens only"
+    echo "    Regex: $NAME_REGEX"
+    echo "  - Frontmatter 'name' must match filename exactly"
+    echo "  - Frontmatter 'description' must be 1-1024 characters"
+    echo ""
+    exit 1
+fi
