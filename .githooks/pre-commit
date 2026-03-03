@@ -7,6 +7,7 @@
 #   - Filename (without .md): 1-64 chars, ^[a-z0-9]+(-[a-z0-9]+)*$
 #   - Frontmatter must have 'name' matching filename
 #   - Frontmatter must have 'description' (1-1024 chars)
+#   - Multi-line description must use YAML block scalar (description: |)
 
 set -euo pipefail
 
@@ -89,17 +90,52 @@ while IFS= read -r file; do
         fi
     fi
 
-    # Extract description field (supports multi-line YAML values)
-    description=$(echo "$frontmatter" | awk '
+    # Check: multi-line description must use block scalar (|, >, |-, >-)
+    is_inline_multiline=$(echo "$frontmatter" | awk '
         /^description:/ {
             sub(/^description:[[:space:]]*/, "")
-            desc = $0
+            if ($0 == "|" || $0 == "|-" || $0 == ">" || $0 == ">-" || $0 == "") {
+                exit
+            }
             found = 1
             next
         }
         found && /^[a-z][a-z0-9_-]*:[[:space:]]/ { exit }
         found && /^[a-z][a-z0-9_-]*:$/ { exit }
+        found && /^$/ { next }
         found {
+            print "yes"
+            exit
+        }
+    ')
+    if [ "$is_inline_multiline" = "yes" ]; then
+        errors+=("$file: multi-line description must use YAML block scalar syntax (description: |)")
+    fi
+
+    # Extract description field (supports inline and YAML block scalar |, >)
+    description=$(echo "$frontmatter" | awk '
+        /^description:/ {
+            sub(/^description:[[:space:]]*/, "")
+            if ($0 == "|" || $0 == "|-" || $0 == ">" || $0 == ">-") {
+                mode = "block"
+                desc = ""
+            } else {
+                mode = "inline"
+                desc = $0
+            }
+            next
+        }
+        mode == "block" && /^[[:space:]]+/ {
+            line = $0
+            sub(/^[[:space:]]+/, "", line)
+            if (desc == "") desc = line
+            else desc = desc " " line
+            next
+        }
+        mode == "block" { exit }
+        mode == "inline" && /^[a-z][a-z0-9_-]*:[[:space:]]/ { exit }
+        mode == "inline" && /^[a-z][a-z0-9_-]*:$/ { exit }
+        mode == "inline" {
             desc = desc " " $0
         }
         END {
@@ -133,6 +169,7 @@ if [ ${#errors[@]} -gt 0 ]; then
     echo "    Regex: $NAME_REGEX"
     echo "  - Frontmatter 'name' must match filename exactly"
     echo "  - Frontmatter 'description' must be 1-1024 characters"
+    echo "  - Multi-line description must use YAML block scalar syntax (description: |)"
     echo ""
     exit 1
 fi

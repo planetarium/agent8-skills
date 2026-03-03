@@ -48,7 +48,7 @@ Each skill document must start with YAML frontmatter. Only these fields are reco
 
 Unknown frontmatter fields are ignored.
 
-**Example:**
+**Single-line example:**
 
 ```yaml
 ---
@@ -56,6 +56,24 @@ name: my-skill
 description: A short description of what this skill does.
 ---
 ```
+
+**Multi-line example (must use block scalar `|`):**
+
+```yaml
+---
+name: my-skill
+description: |
+  Core document on managing something in a project.
+
+  This document covers:
+  - Feature A
+  - Feature B
+
+  [Important] You must install the package using `bun add my-package` before you can use it.
+---
+```
+
+> **Note:** Multi-line descriptions without block scalar syntax (`|`) are **not valid YAML** and will be rejected by the pre-commit hook. After writing or editing a skill document, verify that the frontmatter renders correctly on GitHub.
 
 The `name` field must exactly match the filename. For example, `my-skill.md` must have `name: my-skill`.
 
@@ -83,3 +101,4 @@ A pre-commit hook validates all staged skill documents before each commit. It ch
 2. Filename format and length
 3. Frontmatter `name` matches the filename
 4. Frontmatter `description` is within 1-1024 characters
+5. Multi-line `description` uses YAML block scalar syntax (`|`)

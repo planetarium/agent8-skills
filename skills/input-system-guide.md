@@ -1,17 +1,18 @@
 ---
 name: input-system-guide
-description: Core document on implementing unified input management for mobile and desktop in React Three Fiber (R3F) using InputController and Zustand stores.
-
-This document covers:
-- Centralized input handling for keyboard, joystick, and touch via InputController.
-- Movement and player action store architecture using Zustand.
-- Custom input processing instead of R3F's `<KeyboardControls>`.
-- Consistent state management across input methods with analog support.
-- Custom key mapping and cross-platform performance optimization.
-
-Reference this document when a user needs input handling, player controls, or mobile touch controls.
-
-Important: You must install the required dependencies using `bun add nipplejs` before you can use this system.
+description: |
+  Core document on implementing unified input management for mobile and desktop in React Three Fiber (R3F) using InputController and Zustand stores.
+  
+  This document covers:
+  - Centralized input handling for keyboard, joystick, and touch via InputController.
+  - Movement and player action store architecture using Zustand.
+  - Custom input processing instead of R3F's `<KeyboardControls>`.
+  - Consistent state management across input methods with analog support.
+  - Custom key mapping and cross-platform performance optimization.
+  
+  Reference this document when a user needs input handling, player controls, or mobile touch controls.
+  
+  [Important] You must install the required dependencies using `bun add nipplejs` before you can use this system.
 ---
 
 # Mobile Input System Guide

@@ -1,6 +1,6 @@
 ---
 name: leaderboard-impl
-description: A method to implement leaderboards and rankings in a game. Explain how to store on a server and display it on a client (using gameserver_sdk).
+description: A method to implement leaderboards and rankings in a game. Explain how to store on a server and display it on a client (using `gameserver-sdk` skill).
 ---
 
 # Leaderboard Implementation
@@ -11,7 +11,7 @@ This document explains how to implement leaderboards using Agent8 GameServer SDK
 
 **Important:** This implementation uses the Agent8 GameServer SDK. Before implementing a leaderboard, you must:
 
-1. Read and understand the [GameServer SDK documentation]
+1. Read and understand the `gameserver-sdk` skill
 2. Set up Agent8 GameServer in your project
 3. Create a `server.js` file in your project root
 
