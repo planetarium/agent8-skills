@@ -89,8 +89,25 @@ while IFS= read -r file; do
         fi
     fi
 
-    # Extract description field
-    description=$(echo "$frontmatter" | grep -E '^description:' | head -1 | sed 's/^description:[[:space:]]*//' | sed 's/[[:space:]]*$//')
+    # Extract description field (supports multi-line YAML values)
+    description=$(echo "$frontmatter" | awk '
+        /^description:/ {
+            sub(/^description:[[:space:]]*/, "")
+            desc = $0
+            found = 1
+            next
+        }
+        found && /^[a-z][a-z0-9_-]*:[[:space:]]/ { exit }
+        found && /^[a-z][a-z0-9_-]*:$/ { exit }
+        found {
+            desc = desc " " $0
+        }
+        END {
+            gsub(/[[:space:]]+/, " ", desc)
+            gsub(/^ +| +$/, "", desc)
+            print desc
+        }
+    ')
 
     if [ -z "$description" ]; then
         errors+=("$file: missing 'description' field in frontmatter")
