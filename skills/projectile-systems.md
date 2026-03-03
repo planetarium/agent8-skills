@@ -1,15 +1,16 @@
 ---
 name: projectile-systems
-description: Mandatory reference for all projectile, launch, or throw system tasks in React Three Fiber (R3F). Applies to any object (rocks, spells, bullets, missiles, markers) being thrown, fired, or launched.
-
-This document covers:
-- Input handling for keyboard and mouse-based firing.
-- Direction and trajectory calculation for FPS, TPS, and quarter view cameras.
-- Physics integration with Rapier (RigidBody, collision groups, raycasting).
-- Collision detection and lifecycle management of projectiles.
-- RigidBody reference readiness patterns to prevent common failures.
-
-This document must always be consulted first. The defined patterns must be strictly followed without exception.
+description: |
+  Mandatory reference for all projectile, launch, or throw system tasks in React Three Fiber (R3F). Applies to any object (rocks, spells, bullets, missiles, markers) being thrown, fired, or launched.
+  
+  This document covers:
+  - Input handling for keyboard and mouse-based firing.
+  - Direction and trajectory calculation for FPS, TPS, and quarter view cameras.
+  - Physics integration with Rapier (RigidBody, collision groups, raycasting).
+  - Collision detection and lifecycle management of projectiles.
+  - RigidBody reference readiness patterns to prevent common failures.
+  
+  This document must always be consulted first. The defined patterns must be strictly followed without exception.
 ---
 
 # Projectile Input Systems Reference Guide

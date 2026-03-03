@@ -1,7 +1,8 @@
 ---
 name: gameserver-sdk-crossramp
-description: This document focuses on work related to crossramp (cross-chain) integration.
-Any logic involving the server should reference this document, which provides methods for writing server code and communicating with the server from the client.
+description: |
+  This document focuses on work related to crossramp (cross-chain) integration.
+  Any logic involving the server should reference this document, which provides methods for writing server code and communicating with the server from the client.
 ---
 
 # CROSS Mini Hub Integration System Prompt

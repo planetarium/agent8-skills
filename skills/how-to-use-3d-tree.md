@@ -1,15 +1,16 @@
 ---
 name: how-to-use-3d-tree
-description: Core document on procedurally generating realistic 3D trees and forests in a React Three Fiber (R3F) environment using the `@dgreenheck/ez-tree` library.
-
-This document covers:
-- Placing single or multiple 3D trees in a scene with position, scale, and rotation control.
-- Pre-defined presets for various tree types (Oak, Pine, Ash, Aspen, Bush) and sizes (small, medium, large).
-- Environment configurations (dense-forest, sparse-forest, pine-forest, mixed-forest, bushland, park).
-- Customizing bark, branch, and leaf properties (texture, color, shape, count, etc.).
-- Performance optimization: LOD management, culling, branch level limits, and tree count tuning.
-
-Reference this document when a user wants to add trees or forests to a 3D scene.
+description: |
+  Core document on procedurally generating realistic 3D trees and forests in a React Three Fiber (R3F) environment using the `@dgreenheck/ez-tree` library.
+  
+  This document covers:
+  - Placing single or multiple 3D trees in a scene with position, scale, and rotation control.
+  - Pre-defined presets for various tree types (Oak, Pine, Ash, Aspen, Bush) and sizes (small, medium, large).
+  - Environment configurations (dense-forest, sparse-forest, pine-forest, mixed-forest, bushland, park).
+  - Customizing bark, branch, and leaf properties (texture, color, shape, count, etc.).
+  - Performance optimization: LOD management, culling, branch level limits, and tree count tuning.
+  
+  Reference this document when a user wants to add trees or forests to a 3D scene.
 ---
 
 ```tsx

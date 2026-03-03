@@ -1,15 +1,16 @@
 ---
 name: r3f-rapier-essentials
-description: Core document on essential principles, patterns, and performance optimization for using React Three Fiber (R3F) with the Rapier physics engine in a 3D project.
-
-This document covers:
-- Physics-based movement (character control, jumps, continuous forces like thrust).
-- Sensor zones for non-physical contact detection (item collection, zone entry).
-- Kinematic movement for scripted objects (moving platforms, elevators, rotating obstacles).
-- Essential R3F architecture rules (e.g., all 3D components must be inside Canvas).
-- Performance optimization and collider type selection guidance.
-
-Reference this document when a user asks about physics-based movement, collision detection, interaction patterns with Rapier, or R3F core architecture.
+description: |
+  Core document on essential principles, patterns, and performance optimization for using React Three Fiber (R3F) with the Rapier physics engine in a 3D project.
+  
+  This document covers:
+  - Physics-based movement (character control, jumps, continuous forces like thrust).
+  - Sensor zones for non-physical contact detection (item collection, zone entry).
+  - Kinematic movement for scripted objects (moving platforms, elevators, rotating obstacles).
+  - Essential R3F architecture rules (e.g., all 3D components must be inside Canvas).
+  - Performance optimization and collider type selection guidance.
+  
+  Reference this document when a user asks about physics-based movement, collision detection, interaction patterns with Rapier, or R3F core architecture.
 ---
 
 # React Three Fiber & Rapier Essentials
