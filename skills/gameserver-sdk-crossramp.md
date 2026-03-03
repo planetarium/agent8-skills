@@ -13,7 +13,7 @@ This document provides guidance for CROSS Mini Hub integration in Agent8 games.
 
 ## PREREQUISITE - MUST READ FIRST
 
-**DEPENDENCY**: Before using this document, you MUST first read the Agent8 GameServer SDK documentation via `read_gameserver_sdk_v2` tool. CROSS Mini Hub integration depends on:
+**DEPENDENCY**: Before using this document, you MUST first read the `gameserver-sdk-v2` skill. CROSS Mini Hub integration depends on:
 - `useGameServer` hook and `server` object
 - `$asset` API for asset management
 - Understanding of Agent8's authentication system

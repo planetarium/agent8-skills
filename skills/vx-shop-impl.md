@@ -1,6 +1,6 @@
 ---
 name: vx-shop-impl
-description: The implementation details related to VX or VX shop should unconditionally refer to this document. Additionally, you must read the read_gameserver_sdk together. VX is a platform money itself, and the VX shop is the shop provided within that platform. Each game only implements the interface, allowing items to be sold through the platform's vx shop and be applied to the game.
+description: The implementation details related to VX or VX shop should unconditionally refer to this document. Additionally, you must read the `gameserver-sdk` skill together. VX is a platform money itself, and the VX shop is the shop provided within that platform. Each game only implements the interface, allowing items to be sold through the platform's vx shop and be applied to the game.
 ---
 
 # VX Shop Implementation Guide
@@ -15,7 +15,7 @@ description: The implementation details related to VX or VX shop should uncondit
 **⚠️ CRITICAL: You MUST read the GameServer SDK documentation before starting VX Shop implementation.**
 VX Shop requires server-side logic. All payment-related operations including purchase event handling and user state updates must be done on the server.
 **Required Reading:**
-- Full GameServer SDK documentation (tool: read_gameserver_sdk)
+- Full GameServer SDK documentation (skill: `gameserver-sdk`)
 - Especially User State management: `/docs/gameserver/sdk/globalUserState`
 - Remote Function calls: `/docs/gameserver/sdk/remoteFunction`
 # VX Shop Implementation Steps

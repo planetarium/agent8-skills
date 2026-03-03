@@ -1,5 +1,5 @@
 ---
-name: gameserver-sdk-v1
+name: gameserver-sdk
 description: |
   Any logic related to the server must refer to this document. It provides methods for writing server code and communicating with the server from the client.
   This document is for legacy use. Please refer to this document when using a single server.js file in the project root.
